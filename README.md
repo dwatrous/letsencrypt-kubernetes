@@ -6,7 +6,10 @@ The process below caters to GKE, but originally ran in a kubespray cluster on Op
  1. Create a namespace where Let's Encrypt automation will be deployed
  1. Create the ClusterRole, ClusterRoleBinding and ServiceAccount that will be used to monitor namespaces
  1. Create a PersistentVolume (PV) amd PersistentVolumeClaim (PVC) where the certificates will be stored
+ 1. Generate an NS1 key for DNS domain validation
  1. Update the configuration file from the template
  1. Create a ConfigMap from the configuration file
  1. Create the deployment
  1. Update any namespace that should have a certificate generated
+
+Description of how test mode works...
