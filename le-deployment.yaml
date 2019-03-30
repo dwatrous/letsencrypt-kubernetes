@@ -1,0 +1,29 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: letsencrypt
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: letsencrypt
+  template:
+    metadata:
+      labels:
+        app: letsencrypt
+    spec:
+      containers:
+        - name: letsencrypt-automation
+          image: dwatrous/letsencrypt-automation:latest
+          volumeMounts:
+            - name: conf
+              mountPath: /automation/conf
+            - name: letsencryptstore
+              mountPath: /acme.sh
+      volumes:
+        - name: conf
+          configMap:
+            name: letsencrypt-config
+        - name: letsencryptstore
+          persistentVolumeClaim:
+            claimName: letsencrypt-disk

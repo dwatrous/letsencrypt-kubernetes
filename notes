@@ -1,0 +1,49 @@
+https://kubernetes.io/docs/reference/api-concepts/#efficient-detection-of-changes
+https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.10/#watch-list-488
+https://engineering.bitnami.com/articles/kubernetes-async-watches.html
+https://github.com/kubernetes-client/python
+https://stackoverflow.com/questions/37458287/how-to-run-a-cron-job-inside-a-docker-container
+https://github.com/cheyer/docker-cron
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  annotations:
+  name: letsencrypt
+rules:
+- apiGroups:
+  - '*'
+  resources:
+  - namespaces
+  verbs:
+  - 'get'
+  - 'list'
+- apiGroups:
+  - '*'
+  resources:
+  - secrets
+  verbs:
+  - '*'
+
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: letsencrypt
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: letsencrypt
+subjects:
+- kind: ServiceAccount
+  name: letsencrypt
+  namespace: kube-system
+
+
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: letsencrypt
+  namespace: kube-system
+secrets:
+- name: letsencrypt-token-vwft4

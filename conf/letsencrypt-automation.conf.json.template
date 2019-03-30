@@ -1,0 +1,14 @@
+{
+    "common": {
+        "ns1_key": "",
+        "acme_sh_test": false
+    },
+    "kubernetes": {
+        "cluster_name": "gke_standard_cluster_1",
+        "onboarding_serviceaccount_token": "TOKEN",
+        "api_host": "IP_OR_FQDN_K8S_API_SERVER",
+        "api_port": "443",
+        "ssl_verify": true,
+        "ssl_ca": ""
+    }
+}
