@@ -2,6 +2,7 @@ apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
   name: letsencrypt
+  namespace: letsencrypt
 spec:
   replicas: 1
   selector:
@@ -14,16 +15,21 @@ spec:
     spec:
       containers:
         - name: letsencrypt-automation
-          image: dwatrous/letsencrypt-automation:latest
+          image: dwatrous/letsencrypt-kubernetes:latest
           volumeMounts:
             - name: conf
               mountPath: /automation/conf
+            - name: gke-ca
+              mountPath: /automation/ca
             - name: letsencryptstore
               mountPath: /acme.sh
       volumes:
         - name: conf
           configMap:
             name: letsencrypt-config
+        - name: gke-ca
+          configMap:
+            name: letsencrypt-gke-ca
         - name: letsencryptstore
           persistentVolumeClaim:
             claimName: letsencrypt-disk

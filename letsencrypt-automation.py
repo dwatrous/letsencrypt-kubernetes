@@ -26,7 +26,7 @@ CONFIG_DIRECTORY = os.getenv('LETSENCRYPT_CONFIG_DIRECTORY', 'conf')
 CONFIG_FILE = os.getenv('LETSENCRYPT_CONFIG_FILE', 'letsencrypt-automation.conf.json')
 config = configuration(CONFIG_DIRECTORY, CONFIG_FILE)
 
-HEADERS = {"Authorization": "Bearer %s" % config.kubernetes['serviceaccount_token']}
+HEADERS = {"Authorization": "Bearer %s" % config.kubernetes['letsencrypt_serviceaccount_token']}
 K8S_API_URI = "https://%s:%s" % (config.kubernetes['api_host'], config.kubernetes['api_port'])
 K8S_API_SSL_VERIFY = config.kubernetes['ssl_verify']
 
@@ -85,7 +85,7 @@ def process_tls_certs():
                 acme_sh_env["DEPLOY_K8S_URL"] = config.kubernetes['api_host']
                 acme_sh_env["DEPLOY_K8S_PORT"] = config.kubernetes['api_port']
                 acme_sh_env["DEPLOY_K8S_NAMESPACE"] = current_namespace['metadata']['name']
-                acme_sh_env["DEPLOY_K8S_SA_TOKEN"] = config.kubernetes['serviceaccount_token']
+                acme_sh_env["DEPLOY_K8S_SA_TOKEN"] = config.kubernetes['letsencrypt_serviceaccount_token']
                 result = subprocess.check_output(acme_sh_deploy_command_with_arguments, env=acme_sh_env)
                 print result
 

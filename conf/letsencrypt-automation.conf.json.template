@@ -1,14 +1,13 @@
 {
     "common": {
-        "ns1_key": "",
+        "ns1_key": "nqsF3dpObSrk1Fr09q9G",
         "acme_sh_test": false
     },
     "kubernetes": {
         "cluster_name": "gke_standard_cluster_1",
-        "onboarding_serviceaccount_token": "TOKEN",
-        "api_host": "IP_OR_FQDN_K8S_API_SERVER",
+        "letsencrypt_serviceaccount_token": "eyJhbGciOiJSUzI1NiIsImtpZCI6IiJ9.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlLXN5c3RlbSIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJsZXRzZW5jcnlwdC10b2tlbi12NWtoYyIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50Lm5hbWUiOiJsZXRzZW5jcnlwdCIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50LnVpZCI6ImY2MmFlMTcwLTU0ODUtMTFlOS1hNzNiLTQyMDEwYTgwMDA0ZCIsInN1YiI6InN5c3RlbTpzZXJ2aWNlYWNjb3VudDprdWJlLXN5c3RlbTpsZXRzZW5jcnlwdCJ9.AR5P19cUEv3TEqYiPvfk8-cJbxh_AeYMtnFMOnILVSnhCpO2cS7XqWrpCqwDsbHM4L_e8UtkhUXRNwf_MhkZWcm0WmFGw1jUX0_8k_BxtBNfx0TusfmCImtPZcFM2DoHCr9CkP2DiDNKi1g1RPergeLnylwSfE16Acpjm_UKFSwHmQDBbsRR5GbIcZJqCH1eOZuAKPtluPaI_kmm65_aUorjCR7mZ8CIbbnHYgUHtjpJCnshTH86-9SLvF6ZIJNkpM4Gpnb5ppJp4TgZslYym6iDdu8MBlO1UJYYF2cCUYwtmwd4W6Cnb_qCdGkpeKzN8PsZcTj2GsYYoR41Ok_p1g",
+        "api_host": "35.194.40.218",
         "api_port": "443",
-        "ssl_verify": true,
-        "ssl_ca": ""
+        "ssl_verify": "/automation/ca/gke-ca"
     }
 }
