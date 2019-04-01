@@ -56,6 +56,7 @@ def process_tls_certs():
         secrets_response = requests.get(secrets_api_url, headers=HEADERS, verify=K8S_API_SSL_VERIFY)
         secrets_in_response = json.loads(secrets_response.text)
         for current_namespace in namespaces_in_response['items']:
+            logging.info('Evaluating namespace "%s" for TLS certificate' % current_namespace['metadata']['name'])
             # check whether this namespace should have a TLS cert
             if 'annotations' in current_namespace['metadata'] \
                 and 'namespace_tls_domain' in current_namespace['metadata']['annotations'] \
