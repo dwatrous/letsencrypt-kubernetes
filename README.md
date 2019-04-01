@@ -104,6 +104,31 @@ gke-ca
 / # crontab -l
 43 0 * * * "/root/.acme.sh"/acme.sh --cron --home "/root/.acme.sh" --config-home "/acme.sh"
 */5 * * * * /usr/bin/python /automation/letsencrypt-automation.py
+/ # /usr/bin/python /automation/letsencrypt-automation.py
+INFO:root:Request for namespaces resulted in 200
+INFO:root:Evaluating namespace "default" for TLS certificate
+INFO:root:Evaluating namespace "ingress-nginx" for TLS certificate
+INFO:root:Evaluating namespace "kube-public" for TLS certificate
+INFO:root:Evaluating namespace "kube-system" for TLS certificate
+INFO:root:Evaluating namespace "letsencrypt" for TLS certificate
 ```
 
+# Usage
+For any namespace that you want to have an automatically generated and renewed TLS certificate, add annotation
+`namespace_tls_domain: "*.somedev.company.com"`
 
+Above I show a wildcard TLS, which often makes sense for a namespace that will have many deployments. It can also be a single subdomain.
+
+The automation script runs every 5 minutes, so you may have to wait a bit before the certificate is generated.
+
+After the automation runs successfully, you will see the TLS certificate secret in the namespace, like this.
+```
+$ kubectl get secret -n ingress-nginx
+NAME                                       TYPE                                  DATA   AGE
+default-token-4rjb2                        kubernetes.io/service-account-token   3      31d
+ingress-nginx-tls-secret-autogen           kubernetes.io/tls                     2      107s
+```
+
+As seen above, the generated secret with allways be `namespace-tls-secret-autogen`
+
+The last step would be to tell your app to use the new secret.
