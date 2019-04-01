@@ -83,6 +83,7 @@ def process_tls_certs():
 
                 # deploy the new certificate
                 acme_sh_deploy_command_with_arguments = ['acme.sh', '--deploy', '--deploy-hook', 'kubernetes', '-d', current_namespace['metadata']['annotations']['namespace_tls_domain']]
+                if K8S_API_SSL_VERIFY: acme_sh_env["DEFAULT_K8S_API_CA"] = K8S_API_SSL_VERIFY
                 acme_sh_env["DEPLOY_K8S_URL"] = config.kubernetes['api_host']
                 acme_sh_env["DEPLOY_K8S_PORT"] = config.kubernetes['api_port']
                 acme_sh_env["DEPLOY_K8S_NAMESPACE"] = current_namespace['metadata']['name']

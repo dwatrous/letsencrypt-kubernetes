@@ -20,6 +20,14 @@ kubernetes_deploy() {
   _debug _cca "$_cca"
   _debug _cfullchain "$_cfullchain"
 
+  DEFAULT_K8S_API_CA="-k"
+  if [ -z "${DEFAULT_K8S_API_CA}" ]; then
+    _k8sapica="--cacert ${DEFAULT_K8S_API_CA}"
+    _cleardomainconf DEFAULT_K8S_API_CA
+  else
+    _k8sapica="${DEFAULT_K8S_API_CA}"
+    _savedomainconf DEFAULT_K8S_API_CA "$DEFAULT_K8S_API_CA"
+  fi
   DEFAULT_K8S_PORT="6443"
   if [ -z "${DEPLOY_K8S_PORT}" ]; then
     _k8sport="${DEFAULT_K8S_PORT}"
@@ -74,21 +82,21 @@ kubernetes_deploy() {
   # _info "secret payload is $_secret_payload"
 
   _info "namespace endpoint $_k8s_endpoint_namespace"
-  _existing_namespace=$(curl -s -o /dev/null -w "%{http_code}" -H "Authorization: Bearer $_k8ssatoken" "$_k8s_endpoint_namespace")
+  _existing_namespace=$(curl $_k8sapica -s -o /dev/null -w "%{http_code}" -H "Authorization: Bearer $_k8ssatoken" "$_k8s_endpoint_namespace")
   if [ $_existing_namespace != "200" ]
   then
     _err "Kubernetes namespace, $_k8snamespace, not found ($_existing_namespace). Please make sure the namespace exists."
   fi
 
-  _existing_secret=$(curl -s -o /dev/null -w "%{http_code}" -H "Authorization: Bearer $_k8ssatoken" "$_k8s_endpoint_secret")
+  _existing_secret=$(curl $_k8sapica -s -o /dev/null -w "%{http_code}" -H "Authorization: Bearer $_k8ssatoken" "$_k8s_endpoint_secret")
   if [ $_existing_secret -eq 404 ]
   then
     # create a new secret
-    _new_secret=$(curl -s -X POST -H "Content-type: application/json" -H "Authorization: Bearer $_k8ssatoken" "$_k8s_endpoint_secrets" -d "$_secret_payload")
+    _new_secret=$(curl $_k8sapica -s -X POST -H "Content-type: application/json" -H "Authorization: Bearer $_k8ssatoken" "$_k8s_endpoint_secrets" -d "$_secret_payload")
     _info "Created new Secret"
   else
     # patch an existing secret
-    _updated_secret=$(curl -s -X PATCH -H "Content-type: application/strategic-merge-patch+json" -H "Authorization: Bearer $_k8ssatoken" "$_k8s_endpoint_secret" -d "$_secret_payload")
+    _updated_secret=$(curl $_k8sapica -s -X PATCH -H "Content-type: application/strategic-merge-patch+json" -H "Authorization: Bearer $_k8ssatoken" "$_k8s_endpoint_secret" -d "$_secret_payload")
     _info "PATCHed existing secret"
   fi
 
