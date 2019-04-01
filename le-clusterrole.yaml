@@ -1,0 +1,32 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  annotations:
+  name: letsencrypt
+rules:
+- apiGroups:
+  - '*'
+  resources:
+  - namespaces
+  verbs:
+  - 'get'
+  - 'list'
+- apiGroups:
+  - '*'
+  resources:
+  - secrets
+  verbs:
+  - '*'
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: letsencrypt
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: letsencrypt
+subjects:
+- kind: ServiceAccount
+  name: letsencrypt
+  namespace: kube-system
