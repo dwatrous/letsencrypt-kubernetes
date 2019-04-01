@@ -16,6 +16,7 @@ spec:
       containers:
         - name: letsencrypt-automation
           image: dwatrous/letsencrypt-kubernetes:latest
+          imagePullPolicy: Always
           volumeMounts:
             - name: conf
               mountPath: /automation/conf
