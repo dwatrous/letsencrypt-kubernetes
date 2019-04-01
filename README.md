@@ -63,7 +63,7 @@ Login to https://my.nsone.net/ and click on your username (top left) and the cli
 Perform the following steps using `letsencrypt-automation.conf.json.template`
 
  * Copy the `token` above into the configuration template, e.g. `"onboarding_serviceaccount_token": "TOKEN"`
- * In the GKE console, find the Endpoint IP and copy it into the configuration file, e.g. `"api_host": "35.194.40.218"`
+ * ~~In the GKE console, find the Endpoint IP and copy it into the configuration file, e.g. `"api_host": "35.194.40.218"`~~ On GKE, it's best to use `kubernetes.default`
  * Decide what to do with `ssl_verify`
    * It's possible to skip the SSL verification: `"ssl_verify": false`. If you choose this, you will need to remove the ConfigMap and VolumeMount references in the deployment YAML.
    * You can also verify by going to the GKE console, find the CA certificate for the above endpoint, and copy it into a file, such as `gke-ca`. Now create ConfigMap `kubectl create cm letsencrypt-gke-ca --dry-run -o yaml --from-file=gke-ca=/kubeyaml/letsencrypt-kubernetes/gke-ca -n letsencrypt | kubectl apply -f - -n letsencrypt`.
